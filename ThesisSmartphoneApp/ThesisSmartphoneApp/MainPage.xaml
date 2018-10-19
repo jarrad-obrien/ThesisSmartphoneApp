@@ -2,13 +2,25 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ThesisSmartphoneApp"
-             x:Class="ThesisSmartphoneApp.MainPage">
+             x:Class="ThesisSmartphoneApp.MainPage"
+             xmlns:ViewModels="clr-namespace:ThesisSmartphoneApp.ViewModels" >
+
+    <!-- Setting context of page to a view model -->
+    <ContentPage.BindingContext>
+        <ViewModels:CalculatingPrimes />
+    </ContentPage.BindingContext>
 
     <StackLayout>
         <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
+        <Label Text="{Binding LargestPrime, Mode=OneWay}"
            HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+           VerticalOptions="CenterAndExpand">
+        </Label>
+
+        <Button Text="Calculate Prime"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"
+                Command="{Binding CalculatePrimes}" />
     </StackLayout>
 
 </ContentPage>
