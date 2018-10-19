@@ -12,15 +12,20 @@
 
     <StackLayout>
         <!-- Place new controls here -->
-        <Label Text="{Binding LargestPrime, Mode=OneWay}"
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand">
-        </Label>
+        <Label HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand"
+               FontSize="Large"
+               Text="{Binding LargestPrime, Mode=OneWay}" />
+
+        <Entry HorizontalTextAlignment="Center"
+               Text="{Binding Number}" />
+
 
         <Button Text="Calculate Prime"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="Center"
-                Command="{Binding CalculatePrimes}" />
+                Command="{Binding CalculateLargestPrimeCommand}" />
+        
     </StackLayout>
 
 </ContentPage>
