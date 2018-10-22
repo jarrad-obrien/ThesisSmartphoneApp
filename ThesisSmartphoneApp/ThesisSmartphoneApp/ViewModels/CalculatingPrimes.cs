@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Diagnostics;
 
 namespace ThesisSmartphoneApp.ViewModels
 {
@@ -14,6 +15,11 @@ namespace ThesisSmartphoneApp.ViewModels
         public int _largestPrime = 0;
 
         public int _number;
+
+        public long _timer;
+
+        Stopwatch _stopWatch = new Stopwatch();
+
 
         public int LargestPrime
         {
@@ -57,17 +63,49 @@ namespace ThesisSmartphoneApp.ViewModels
             }
         }
 
+        public long Timer
+        {
+            set
+            {
+                if (_timer != value)
+                {
+                    _timer = value;
+
+                    if (PropertyChanged != null)
+                    {
+                        OnPropertyChanged();
+                    }
+                }
+            }
+
+            get
+            {
+                return _timer;
+            }
+        }
+
 
         public Command CalculateLargestPrimeCommand
         {
             get
             {
-                return new Command(() => { LargestPrime = CalculateLargestPrime(Number); });
+                return new Command(() => {
+
+                    _stopWatch.Start();
+                    LargestPrime = CalculateLargestPrime(Number);
+
+                    _stopWatch.Stop();
+
+                    Timer = _stopWatch.ElapsedMilliseconds;
+                    _stopWatch.Reset();
+
+                });
             }
         }
 
         public int CalculateLargestPrime(int calculateTo)
         {
+            
             int largestPrime = 1;
             bool isPrime;
 

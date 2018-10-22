@@ -17,6 +17,11 @@
                FontSize="Large"
                Text="{Binding LargestPrime, Mode=OneWay}" />
 
+        <Label HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand"
+               FontSize="Large"
+               Text="{Binding Timer}" />
+
         <Entry HorizontalTextAlignment="Center"
                Text="{Binding Number}" />
 
@@ -25,7 +30,7 @@
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="Center"
                 Command="{Binding CalculateLargestPrimeCommand}" />
-        
+
     </StackLayout>
 
 </ContentPage>
