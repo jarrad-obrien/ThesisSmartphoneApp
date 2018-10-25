@@ -12,21 +12,21 @@
     <ContentPage.Content>
         <StackLayout>
             <Label HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand"
+               VerticalOptions="Center"
                FontSize="Large"
                Text="{Binding LargestPrime, Mode=OneWay}" />
 
             <Label HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand"
+               VerticalOptions="Center"
                FontSize="Large"
-               Text="{Binding Timer}" />
+               Text="{Binding Timer, StringFormat='{0}ms'}" />
 
             <Entry HorizontalTextAlignment="Center"
+                   VerticalOptions="Center"
                Text="{Binding Number}" />
 
-
             <Button Text="Calculate Prime"
-                VerticalOptions="CenterAndExpand"
+                VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Command="{Binding CalculateLargestPrimeCommand}" />
         </StackLayout>
