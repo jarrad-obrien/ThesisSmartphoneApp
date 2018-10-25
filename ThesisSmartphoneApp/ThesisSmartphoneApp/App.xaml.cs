@@ -11,7 +11,7 @@ namespace ThesisSmartphoneApp
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new TabbedNavigationPage();
         }
 
         protected override void OnStart()
