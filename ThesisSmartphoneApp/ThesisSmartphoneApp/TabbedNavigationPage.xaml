@@ -9,5 +9,6 @@
   <ContentPage Title="Tab 3" />-->
     <TabbedPage.Children>
         <ThesisSmartphoneApp:PhonePrimePage Title="Phone" />
+        <ThesisSmartphoneApp:LocalPrimePage Title="Local" />
     </TabbedPage.Children>
 </TabbedPage>

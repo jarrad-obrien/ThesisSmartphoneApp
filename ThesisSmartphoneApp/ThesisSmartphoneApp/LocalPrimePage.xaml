@@ -1,12 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ThesisSmartphoneApp.LocalPrimePage">
+             x:Class="ThesisSmartphoneApp.LocalPrimePage"
+             
+             xmlns:Utilities="clr-namespace:ThesisSmartphoneApp.Utilities">
+
+    <ContentPage.BindingContext>
+        <Utilities:CalculatingPrimes />
+    </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+
+            <Label HorizontalOptions="Center"
+               VerticalOptions="Center"
+               FontSize="Large"
+               Text="{Binding LargestPrime, Mode=OneWay}" />
+
+            <Label HorizontalOptions="Center"
+               VerticalOptions="Center"
+               FontSize="Large"
+               Text="{Binding Timer, StringFormat='{0}ms'}" />
+
+            <Entry HorizontalTextAlignment="Center"
+                   VerticalOptions="Center"
+               Text="{Binding Number}" />
+
+            <Button Text="Calculate Prime"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Command="{Binding CalculateLargestPrimeCommand}" />
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

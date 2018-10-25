@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace ThesisSmartphoneApp.Utilities
 {
@@ -105,6 +106,13 @@ namespace ThesisSmartphoneApp.Utilities
 
         public int CalculateLargestPrime(int calculateTo)
         {
+            string methodName = MethodInfo.GetCurrentMethod().Name;
+            ParameterInfo[] myParams = MethodInfo.GetCurrentMethod().GetParameters();
+
+            foreach (ParameterInfo p in myParams)
+            {
+                Console.WriteLine(p.Name);
+            }
             
             int largestPrime = 1;
             bool isPrime;
