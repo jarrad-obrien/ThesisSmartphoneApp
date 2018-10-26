@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace ThesisSmartphoneApp.Utilities
 {
@@ -19,8 +20,11 @@ namespace ThesisSmartphoneApp.Utilities
 
         public long _timer;
 
-        Stopwatch _stopWatch = new Stopwatch();
+        public ICommand CalculateLargestPrimeCommand { get; private set; }
 
+        //bool canCalculate = true;
+
+        Stopwatch _stopWatch = new Stopwatch();
 
         public int LargestPrime
         {
@@ -85,35 +89,34 @@ namespace ThesisSmartphoneApp.Utilities
             }
         }
 
+        public bool CanCalculate { get; set; }
 
-        public Command CalculateLargestPrimeCommand
+        public CalculatingPrimes()
         {
-            get
-            {
-                return new Command(() => {
+            CalculateLargestPrimeCommand = new Command(async () => await CalculateLargestPrimeAsync());
+        }
 
-                    _stopWatch.Start();
-                    LargestPrime = CalculateLargestPrime(Number);
-
-                    _stopWatch.Stop();
-
-                    Timer = _stopWatch.ElapsedMilliseconds;
-                    _stopWatch.Reset();
-
-                });
-            }
+        async Task CalculateLargestPrimeAsync()
+        {
+            await Task.Run(() => LargestPrime = CalculateLargestPrime(Number));
         }
 
         public int CalculateLargestPrime(int calculateTo)
         {
-            string methodName = MethodInfo.GetCurrentMethod().Name;
-            ParameterInfo[] myParams = MethodInfo.GetCurrentMethod().GetParameters();
+            //string methodName = MethodInfo.GetCurrentMethod().Name;
+            //ParameterInfo[] myParams = MethodInfo.GetCurrentMethod().GetParameters();
 
-            foreach (ParameterInfo p in myParams)
-            {
-                Console.WriteLine(p.Name);
-            }
-            
+            //foreach (ParameterInfo p in myParams)
+            //{
+            //    Console.WriteLine(p.Name);
+            //}
+
+            // API CALL
+
+            //canCalculate = false;
+            //((Command)CalculateLargestPrimeCommand).ChangeCanExecute();
+            _stopWatch.Start();
+
             int largestPrime = 1;
             bool isPrime;
 
@@ -136,10 +139,22 @@ namespace ThesisSmartphoneApp.Utilities
                 }
             }
 
+            _stopWatch.Stop();
+            Timer = _stopWatch.ElapsedMilliseconds;
+            _stopWatch.Reset();
+
+            //((Command)CalculateLargestPrimeCommand).ChangeCanExecute();
+
+            //canCalculate = true;
+
             return largestPrime;
         }
 
-
+        //void CanCalculate(bool canCalculate)
+        //{
+        //    this.canCalculate = canCalculate;
+        //    ((Command)CalculateLargestPrimeCommand).ChangeCanExecute();
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
