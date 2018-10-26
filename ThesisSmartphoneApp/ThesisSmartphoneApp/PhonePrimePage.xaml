@@ -28,7 +28,8 @@
             <Button Text="Calculate Prime"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
-                Command="{Binding CalculateLargestPrimeCommand}" />
+                Command="{Binding CalculateLargestPrimeCommand}" 
+                CommandParameter="Phone" />
             
         </StackLayout>
     </ContentPage.Content>

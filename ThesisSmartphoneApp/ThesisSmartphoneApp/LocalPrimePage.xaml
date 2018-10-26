@@ -8,6 +8,7 @@
     <ContentPage.BindingContext>
         <Utilities:CalculatingPrimes />
     </ContentPage.BindingContext>
+    
     <ContentPage.Content>
         <StackLayout>
 
@@ -28,7 +29,8 @@
             <Button Text="Calculate Prime"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
-                Command="{Binding CalculateLargestPrimeCommand}" />
+                Command="{Binding CalculateLargestPrimeCommand}" 
+                CommandParameter="Local" />
 
         </StackLayout>
     </ContentPage.Content>
