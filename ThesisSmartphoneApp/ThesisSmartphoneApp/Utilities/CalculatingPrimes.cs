@@ -22,12 +22,16 @@ namespace ThesisSmartphoneApp.Utilities
 
         public ICommand CalculateLargestPrimeCommand { get; private set; }
 
-        //bool canCalculate = true;
+        public bool _canCalculate = true;
 
         Stopwatch _stopWatch = new Stopwatch();
 
         public int LargestPrime
         {
+            get
+            {
+                return _largestPrime;
+            }
             set
             {
                 if(_largestPrime != value)
@@ -40,15 +44,15 @@ namespace ThesisSmartphoneApp.Utilities
                     }
                 }
             }
-
-            get
-            {
-                return _largestPrime;
-            }
         }
 
         public int Number
         {
+            get
+            {
+                return _number;
+            }
+
             set
             {
                 if (_number != value)
@@ -61,15 +65,15 @@ namespace ThesisSmartphoneApp.Utilities
                     }
                 }
             }
-
-            get
-            {
-                return _number;
-            }
         }
 
         public long Timer
         {
+            get
+            {
+                return _timer;
+            }
+
             set
             {
                 if (_timer != value)
@@ -82,25 +86,42 @@ namespace ThesisSmartphoneApp.Utilities
                     }
                 }
             }
+        }
 
+        public bool CanCalculate
+        {
             get
             {
-                return _timer;
+                return _canCalculate;
+            }
+
+            set
+            {
+                _canCalculate = value;
             }
         }
 
-        public bool CanCalculate { get; set; }
-
         public CalculatingPrimes()
         {
-            CalculateLargestPrimeCommand = new Command(async () => await CalculateLargestPrimeAsync());
+            CalculateLargestPrimeCommand = new Command(async () => await CalculateLargestPrimeAsync(), () => CanCalculate);
         }
 
+        // Handles enabling and disabling the calculate primes button
+        void CanCalculatePrime(bool value)
+        {
+            _canCalculate = value;
+            ((Command)CalculateLargestPrimeCommand).ChangeCanExecute();
+        }
+
+        // Runs the calculate prime function asynchronously
         async Task CalculateLargestPrimeAsync()
         {
+            CanCalculatePrime(false);
             await Task.Run(() => LargestPrime = CalculateLargestPrime(Number));
+            CanCalculatePrime(true);
         }
 
+        // Finds the highest prime up to and including the specified number
         public int CalculateLargestPrime(int calculateTo)
         {
             //string methodName = MethodInfo.GetCurrentMethod().Name;
@@ -113,8 +134,6 @@ namespace ThesisSmartphoneApp.Utilities
 
             // API CALL
 
-            //canCalculate = false;
-            //((Command)CalculateLargestPrimeCommand).ChangeCanExecute();
             _stopWatch.Start();
 
             int largestPrime = 1;
@@ -142,20 +161,11 @@ namespace ThesisSmartphoneApp.Utilities
             _stopWatch.Stop();
             Timer = _stopWatch.ElapsedMilliseconds;
             _stopWatch.Reset();
-
-            //((Command)CalculateLargestPrimeCommand).ChangeCanExecute();
-
-            //canCalculate = true;
-
+            
             return largestPrime;
         }
 
-        //void CanCalculate(bool canCalculate)
-        //{
-        //    this.canCalculate = canCalculate;
-        //    ((Command)CalculateLargestPrimeCommand).ChangeCanExecute();
-        //}
-
+        // Handles updating the view when values are updated
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

@@ -29,6 +29,7 @@
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Command="{Binding CalculateLargestPrimeCommand}" />
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
