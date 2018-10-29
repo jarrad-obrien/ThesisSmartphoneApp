@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ThesisSmartphoneApp.Utilities
 {
@@ -154,7 +155,8 @@ namespace ThesisSmartphoneApp.Utilities
 
 					if(response.IsSuccessStatusCode)
 					{
-						var result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
+						JObject result = JsonConvert.DeserializeObject<JObject>(response.Content.ReadAsStringAsync().Result);
+						LargestPrime = (int)result["highestPrime"];
 					}
 
 				}
