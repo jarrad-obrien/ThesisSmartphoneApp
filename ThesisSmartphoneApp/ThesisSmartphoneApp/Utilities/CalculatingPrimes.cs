@@ -8,6 +8,8 @@ using Xamarin.Forms;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace ThesisSmartphoneApp.Utilities
 {
@@ -26,7 +28,10 @@ namespace ThesisSmartphoneApp.Utilities
 
         Stopwatch _stopWatch = new Stopwatch();
 
-        public int LargestPrime
+		public string _address = "http://192.168.0.19:1337/prime";
+
+
+		public int LargestPrime
         {
             get
             {
@@ -88,22 +93,35 @@ namespace ThesisSmartphoneApp.Utilities
             }
         }
 
-        public bool CanCalculate
-        {
-            get
-            {
-                return _canCalculate;
-            }
+		public bool CanCalculate
+		{
+			get
+			{
+				return _canCalculate;
+			}
 
-            set
-            {
-                _canCalculate = value;
-            }
-        }
+			set
+			{
+				_canCalculate = value;
+			}
+		}
 
-        public CalculatingPrimes()
+		public string Address
+		{
+			get
+			{
+				return _address;
+			}
+
+			set
+			{
+				_address = value;
+			}
+		}
+		
+		public CalculatingPrimes(string location)
         {
-            CalculateLargestPrimeCommand = new Command(async () => await CalculateLargestPrimeAsync(), () => CanCalculate);
+            CalculateLargestPrimeCommand = new Command(async () => await CalculateLargestPrimeAsync(location), () => CanCalculate);
         }
 
         // Handles enabling and disabling the calculate primes button
@@ -113,56 +131,70 @@ namespace ThesisSmartphoneApp.Utilities
             ((Command)CalculateLargestPrimeCommand).ChangeCanExecute();
         }
 
-        // Runs the calculate prime function asynchronously
-        async Task CalculateLargestPrimeAsync()
+		// Runs the calculate prime function asynchronously
+		async Task CalculateLargestPrimeAsync(string location)
+		{
+			_stopWatch.Start();
+			CanCalculatePrime(false);
+
+			if (location == "Phone")
+			{
+				await Task.Run(() => LargestPrime = CalculateLargestPrime(Number));
+			}
+
+			else if (location == "Local")
+			{
+				using (var c = new HttpClient())
+				{
+					var client = new HttpClient();
+					var jsonRequest = new { calculateTo = Number };
+					var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+					HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+					var response = await client.PostAsync(Address, content);
+
+					if(response.IsSuccessStatusCode)
+					{
+						var result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
+					}
+
+				}
+			}
+
+			CanCalculatePrime(true);
+
+			_stopWatch.Stop();
+			Timer = _stopWatch.ElapsedMilliseconds;
+			_stopWatch.Reset();
+		}
+
+		// Finds the highest prime up to and including the specified number
+		public int CalculateLargestPrime(int calculateTo)
         {
-            CanCalculatePrime(false);
-            await Task.Run(() => LargestPrime = CalculateLargestPrime(Number));
-            CanCalculatePrime(true);
-        }
 
-        // Finds the highest prime up to and including the specified number
-        public int CalculateLargestPrime(int calculateTo)
-        {
-            //string methodName = MethodInfo.GetCurrentMethod().Name;
-            //ParameterInfo[] myParams = MethodInfo.GetCurrentMethod().GetParameters();
+			int largestPrime = 1;
+			bool isPrime;
 
-            //foreach (ParameterInfo p in myParams)
-            //{
-            //    Console.WriteLine(p.Name);
-            //}
+			for (int i = 1; i <= calculateTo; i++)
+			{
+				isPrime = true;
 
-            // API CALL
+				for (int j = 2; j <= i / 2; j++)
+				{
+					if (i % j == 0)
+					{
+						isPrime = false;
+						break;
+					}
+				}
 
-            _stopWatch.Start();
+				if (isPrime)
+				{
+					largestPrime = i;
+				}
+			}
 
-            int largestPrime = 1;
-            bool isPrime;
+			return largestPrime;
 
-            for(int i = 1; i <= calculateTo; i++)
-            {
-                isPrime = true;
-
-                for(int j = 2; j <= i/2; j++)
-                {
-                    if(i % j == 0)
-                    {
-                        isPrime = false;
-                        break;
-                    }
-                }
-
-                if(isPrime)
-                {
-                    largestPrime = i;
-                }
-            }
-
-            _stopWatch.Stop();
-            Timer = _stopWatch.ElapsedMilliseconds;
-            _stopWatch.Reset();
-            
-            return largestPrime;
         }
 
         // Handles updating the view when values are updated

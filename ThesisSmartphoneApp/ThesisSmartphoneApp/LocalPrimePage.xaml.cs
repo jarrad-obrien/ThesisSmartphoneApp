@@ -15,6 +15,8 @@ namespace ThesisSmartphoneApp
 		public LocalPrimePage ()
 		{
 			InitializeComponent ();
+
+			BindingContext = new ThesisSmartphoneApp.Utilities.CalculatingPrimes("Local");
 		}
 	}
 }
