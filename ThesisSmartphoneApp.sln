@@ -9,7 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThesisSmartphoneApp.iOS", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThesisSmartphoneApp.UWP", "ThesisSmartphoneApp\ThesisSmartphoneApp.UWP\ThesisSmartphoneApp.UWP.csproj", "{077D751E-268A-4F19-96BD-D7F7D895687F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThesisSmartphoneApp", "ThesisSmartphoneApp\ThesisSmartphoneApp\ThesisSmartphoneApp.csproj", "{675180DD-0A08-4634-B76C-8CF43292032C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThesisSmartphoneApp", "ThesisSmartphoneApp\ThesisSmartphoneApp\ThesisSmartphoneApp.csproj", "{675180DD-0A08-4634-B76C-8CF43292032C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F3C5DE0E-C084-4EEC-A436-4D7FD7D121CD}"
+	ProjectSection(SolutionItems) = preProject
+		FodyWeavers.xml = FodyWeavers.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
