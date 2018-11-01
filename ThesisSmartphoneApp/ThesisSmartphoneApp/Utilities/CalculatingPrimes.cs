@@ -170,6 +170,7 @@ namespace ThesisSmartphoneApp.Utilities
 		}
 
 		// Finds the highest prime up to and including the specified number
+		[RemotableAspect]
 		public int CalculateLargestPrime(int calculateTo)
         {
 
