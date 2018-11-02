@@ -29,6 +29,11 @@ namespace ThesisSmartphoneApp.Utilities
 			{
 				return _connected;
 			}
+
+			set
+			{
+				_connected = value;
+			}
 		}
 	}
 }
