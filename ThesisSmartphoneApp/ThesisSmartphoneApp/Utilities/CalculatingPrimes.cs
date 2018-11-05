@@ -170,10 +170,15 @@ namespace ThesisSmartphoneApp.Utilities
 		}
 
 		// Finds the highest prime up to and including the specified number
-		[TestSkipAspect]
+		[RemotableAspect]
 		public int CalculateLargestPrime(int calculateTo)
         {
-
+			
+			if (ConnectedSingleton.Instance.Connected)
+			{
+				return -1;
+			}
+		
 			int largestPrime = 1;
 			bool isPrime;
 

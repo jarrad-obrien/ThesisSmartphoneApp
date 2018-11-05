@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using MethodBoundaryAspect.Fody;
 using MethodBoundaryAspect.Fody.Attributes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ThesisSmartphoneApp.Utilities
 {
 	class RemotableAspect : OnMethodBoundaryAspect
 	{
-		public override void OnEntry(MethodExecutionArgs arg)
+		public override void OnExit(MethodExecutionArgs arg)
 		{
 			Console.WriteLine("TEST");
 			base.OnEntry(arg);
 			string methodName = arg.Method.Name;
-
-			//var x = arg.Arguments;
-			//for (int i = 0; i < x.Length; i++)
-			//{
-			//	Console.WriteLine("arguments " + i + ": " + x[i]);
-			//}
-
 
 
 			var y = arg.Method.GetParameters();
@@ -28,31 +25,27 @@ namespace ThesisSmartphoneApp.Utilities
 				Console.WriteLine("parameter " + i + ": " + arg.Method.GetParameters()[i]);
 			}
 
-			//int numberOfArguments = arg.Arguments.GetLength;
-
-
-			Console.WriteLine(arg.Arguments.ToString());
-			Console.WriteLine(arg.Instance);
-			Console.WriteLine(arg.Method.GetMethodBody());
-			Console.WriteLine(arg.Method.GetParameters());
+			
 
 		}
-	}
 
-	class TestSkipAspect: OnMethodBoundaryAspect
-	{
-		public override void OnEntry(MethodExecutionArgs arg)
-		{
-			base.OnEntry(arg);
-			OnExit(arg);
-		}
+		//async Task GetResult()
+		//{
+		//	using (var c = new HttpClient())
+		//	{
+		//		var client = new HttpClient();
+		//		var jsonRequest = new { calculateTo = Number };
+		//		var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+		//		HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+		//		var response = await client.PostAsync(Address, content);
 
-		public override void OnExit(MethodExecutionArgs arg)
-		{
-			base.OnExit(arg);
-			arg.FlowBehavior = FlowBehavior.RethrowException;
-			arg.ReturnValue = 22;
-			throw new Exception("test");
-		}
+		//		if (response.IsSuccessStatusCode)
+		//		{
+		//			JObject result = JsonConvert.DeserializeObject<JObject>(response.Content.ReadAsStringAsync().Result);
+		//			LargestPrime = (int)result["highestPrime"];
+		//		}
+
+		//	}
+		//}
 	}
 }
