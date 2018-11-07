@@ -18,6 +18,7 @@ namespace ThesisSmartphoneApp.Utilities
 		{
 			base.OnExit(arg);
 
+			// If the app is connected to a server, use it perform the method instead of the app
 			if(ConnectedSingleton.Instance.Connected)
 			{
 				var result = Task.Run(async () => await GetResult(arg));
@@ -26,6 +27,8 @@ namespace ThesisSmartphoneApp.Utilities
 
 		}
 
+		// Makes a POST call to an API and overwrites the return value of the original method with the
+		// result of the API call
 		async Task GetResult(MethodExecutionArgs arg)
 		{
 			using (var c = new HttpClient())
@@ -35,8 +38,11 @@ namespace ThesisSmartphoneApp.Utilities
 				dynamic jsonRequest = new ExpandoObject();
 				var jsonRequestDictionary = (IDictionary<string, object>)jsonRequest;
 
+				// Construct the JSON
+				// Add the name of the method to the JSON
 				jsonRequestDictionary.Add("methodName", arg.Method.Name);
 
+				// Add the parameter names and values of the method to the JSON
 				for (int i = 0; i < arg.Method.GetParameters().Length; i++)
 				{
 					jsonRequestDictionary.Add(arg.Method.GetParameters()[i].Name, arg.Arguments[i]);
@@ -50,10 +56,12 @@ namespace ThesisSmartphoneApp.Utilities
 				if (response.IsSuccessStatusCode)
 				{
 					JObject result = JsonConvert.DeserializeObject<JObject>(response.Content.ReadAsStringAsync().Result);
+
+					// Overwrite the return value of the method with the result of the API call
 					arg.ReturnValue = (int)result["result"];
 				}
 
-				// TODO handle on response failure
+				// TODO Handle bad server calls - taking too long, bad response code
 			}
 		}
 	}

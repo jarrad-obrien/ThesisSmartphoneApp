@@ -6,11 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Diagnostics;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace ThesisSmartphoneApp.Utilities
 {
@@ -119,11 +114,12 @@ namespace ThesisSmartphoneApp.Utilities
 		
 		public CalculatingPrimes(string location)
         {
-            //CalculateLargestPrimeCommand = new Command(async () => await CalculateLargestPrimeAsync(location), () => CanCalculate);
-
+			// Link the button press to a method
 			CalculateLargestPrimeCommand = new Command(CalculateLargestPrimeTrigger);
         }
 
+		// Trigger to calculate the largest prime. Also records how long the method takes to
+		// complete
 		void CalculateLargestPrimeTrigger()
 		{
 			_stopWatch.Start();
@@ -138,6 +134,8 @@ namespace ThesisSmartphoneApp.Utilities
 		public int CalculateLargestPrime(int calculateTo)
         {
 			
+			// If a server is connected, end this method straightaway and perform the
+			// computation on the server
 			if (ConnectedSingleton.Instance.Connected)
 			{
 				return -1;

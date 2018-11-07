@@ -4,6 +4,7 @@ using System.Text;
 
 namespace ThesisSmartphoneApp.Utilities
 {
+	// Singleton class used to hold data regarding the connected server
 	class ConnectedSingleton
 	{
 		private static ConnectedSingleton instance;
