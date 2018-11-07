@@ -122,8 +122,15 @@ namespace ThesisSmartphoneApp.Utilities
 		
 		public CalculatingPrimes(string location)
         {
-            CalculateLargestPrimeCommand = new Command(async () => await CalculateLargestPrimeAsync(location), () => CanCalculate);
+            //CalculateLargestPrimeCommand = new Command(async () => await CalculateLargestPrimeAsync(location), () => CanCalculate);
+
+			CalculateLargestPrimeCommand = new Command(Test);
         }
+
+		void Test()
+		{
+			LargestPrime = CalculateLargestPrime(Number);
+		}
 
         // Handles enabling and disabling the calculate primes button
         void CanCalculatePrime(bool value)
@@ -140,7 +147,7 @@ namespace ThesisSmartphoneApp.Utilities
 
 			if (location == "Phone")
 			{
-				await Task.Run(() => LargestPrime = CalculateLargestPrime(Number));
+				LargestPrime = CalculateLargestPrime(Number);
 			}
 
 			else if (location == "Local")

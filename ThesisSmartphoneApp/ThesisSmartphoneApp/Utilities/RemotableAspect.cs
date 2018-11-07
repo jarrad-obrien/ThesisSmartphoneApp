@@ -14,15 +14,12 @@ namespace ThesisSmartphoneApp.Utilities
 {
 	class RemotableAspect : OnMethodBoundaryAspect
 	{
-
 		public override void OnExit(MethodExecutionArgs arg)
 		{
-			base.OnEntry(arg);
+			base.OnExit(arg);
 
 			var result = Task.Run(async () => await GetResult(arg));
-
-			arg.ReturnValue = 12345;
-			
+			result.Wait();
 		}
 
 		async Task GetResult(MethodExecutionArgs arg)
@@ -36,24 +33,20 @@ namespace ThesisSmartphoneApp.Utilities
 
 				jsonRequestDictionary.Add("methodName", arg.Method.Name);
 
-				//jsonRequest.methodName = arg.Method.Name;
-
 				for (int i = 0; i < arg.Method.GetParameters().Length; i++)
 				{
 					jsonRequestDictionary.Add(arg.Method.GetParameters()[i].Name, arg.Arguments[i]);
-					//string parameterName = arg.Method.GetParameters()[i].Name;
-					//jsonRequest.parameterName = arg.Arguments[i];
 				}
 
 				var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequestDictionary);
 				HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
 
-				var response = await client.PostAsync(ConnectedSingleton.Instance.Address, content);
+				var response = await client.PostAsync("http://192.168.0.19:1337/prime", content);
 
 				if (response.IsSuccessStatusCode)
 				{
 					JObject result = JsonConvert.DeserializeObject<JObject>(response.Content.ReadAsStringAsync().Result);
-					//LargestPrime = (int)result["highestPrime"];
+					arg.ReturnValue = (int)result["highestPrime"];
 				}
 
 				// TODO handle on response failure
