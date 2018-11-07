@@ -25,6 +25,7 @@ namespace ThesisSmartphoneApp.Utilities
 				Console.WriteLine("parameter " + i + ": " + arg.Method.GetParameters()[i]);
 			}
 
+			arg.ReturnValue = 12345;
 			
 
 		}

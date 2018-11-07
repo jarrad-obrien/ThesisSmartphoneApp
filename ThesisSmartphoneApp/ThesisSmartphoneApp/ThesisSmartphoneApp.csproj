@@ -17,7 +17,7 @@
     <PackageReference Include="MethodBoundaryAspect.Fody" Version="1.0.66">
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="Xamarin.Forms" Version="3.3.0.912540" />
+    <PackageReference Include="Xamarin.Forms" Version="3.3.0.967583" />
   </ItemGroup>
 
   <ItemGroup>

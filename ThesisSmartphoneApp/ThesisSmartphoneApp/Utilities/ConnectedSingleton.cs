@@ -8,7 +8,7 @@ namespace ThesisSmartphoneApp.Utilities
 	{
 		private static ConnectedSingleton instance;
 
-		private bool _connected = false;
+		private bool _connected = true;
 
 		private ConnectedSingleton() { }
 
