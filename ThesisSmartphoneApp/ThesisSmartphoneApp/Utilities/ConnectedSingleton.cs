@@ -10,6 +10,8 @@ namespace ThesisSmartphoneApp.Utilities
 
 		private bool _connected = true;
 
+		private string _address = "http://192.168.0.19:1337/prime";
+
 		private ConnectedSingleton() { }
 
 		public static ConnectedSingleton Instance
@@ -33,6 +35,19 @@ namespace ThesisSmartphoneApp.Utilities
 			set
 			{
 				_connected = value;
+			}
+		}
+
+		public string Address
+		{
+			get
+			{
+				return _address;
+			}
+
+			set
+			{
+				_address = value;
 			}
 		}
 	}
