@@ -16,7 +16,7 @@ namespace ThesisSmartphoneApp
 		{
 			InitializeComponent ();
 
-			BindingContext = new ThesisSmartphoneApp.Utilities.CalculatingPrimes("Phone");
+			BindingContext = new Utilities.CalculatingPrimes("Phone");
 		}
 	}
 }

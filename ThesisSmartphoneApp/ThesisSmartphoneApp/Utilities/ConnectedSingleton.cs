@@ -8,7 +8,7 @@ namespace ThesisSmartphoneApp.Utilities
 	{
 		private static ConnectedSingleton instance;
 
-		private bool _connected = true;
+		private bool _connected = false;
 
 		private string _address = "http://192.168.0.19:1337/prime";
 

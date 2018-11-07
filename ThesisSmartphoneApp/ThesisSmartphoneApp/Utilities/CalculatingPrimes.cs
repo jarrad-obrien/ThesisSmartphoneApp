@@ -29,9 +29,6 @@ namespace ThesisSmartphoneApp.Utilities
 
         Stopwatch _stopWatch = new Stopwatch();
 
-		public string _address = "http://192.168.0.19:1337/prime";
-
-
 		public int LargestPrime
         {
             get
@@ -106,17 +103,17 @@ namespace ThesisSmartphoneApp.Utilities
 				_canCalculate = value;
 			}
 		}
-
-		public string Address
+		
+		public bool Connected
 		{
 			get
 			{
-				return _address;
+				return ConnectedSingleton.Instance.Connected;
 			}
 
 			set
 			{
-				_address = value;
+				ConnectedSingleton.Instance.Connected = value;
 			}
 		}
 		
@@ -124,53 +121,13 @@ namespace ThesisSmartphoneApp.Utilities
         {
             //CalculateLargestPrimeCommand = new Command(async () => await CalculateLargestPrimeAsync(location), () => CanCalculate);
 
-			CalculateLargestPrimeCommand = new Command(Test);
+			CalculateLargestPrimeCommand = new Command(CalculateLargestPrimeTrigger);
         }
 
-		void Test()
-		{
-			LargestPrime = CalculateLargestPrime(Number);
-		}
-
-        // Handles enabling and disabling the calculate primes button
-        void CanCalculatePrime(bool value)
-        {
-            _canCalculate = value;
-            ((Command)CalculateLargestPrimeCommand).ChangeCanExecute();
-        }
-
-		// Runs the calculate prime function asynchronously
-		async Task CalculateLargestPrimeAsync(string location)
+		void CalculateLargestPrimeTrigger()
 		{
 			_stopWatch.Start();
-			CanCalculatePrime(false);
-
-			if (location == "Phone")
-			{
-				LargestPrime = CalculateLargestPrime(Number);
-			}
-
-			else if (location == "Local")
-			{
-				using (var c = new HttpClient())
-				{
-					var client = new HttpClient();
-					var jsonRequest = new { calculateTo = Number };
-					var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
-					HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
-					var response = await client.PostAsync(Address, content);
-
-					if(response.IsSuccessStatusCode)
-					{
-						JObject result = JsonConvert.DeserializeObject<JObject>(response.Content.ReadAsStringAsync().Result);
-						LargestPrime = (int)result["highestPrime"];
-					}
-
-				}
-			}
-
-			CanCalculatePrime(true);
-
+			LargestPrime = CalculateLargestPrime(Number);
 			_stopWatch.Stop();
 			Timer = _stopWatch.ElapsedMilliseconds;
 			_stopWatch.Reset();

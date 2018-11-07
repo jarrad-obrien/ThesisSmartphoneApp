@@ -18,8 +18,12 @@ namespace ThesisSmartphoneApp.Utilities
 		{
 			base.OnExit(arg);
 
-			var result = Task.Run(async () => await GetResult(arg));
-			result.Wait();
+			if(ConnectedSingleton.Instance.Connected)
+			{
+				var result = Task.Run(async () => await GetResult(arg));
+				result.Wait();
+			}
+
 		}
 
 		async Task GetResult(MethodExecutionArgs arg)
@@ -41,12 +45,12 @@ namespace ThesisSmartphoneApp.Utilities
 				var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequestDictionary);
 				HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
 
-				var response = await client.PostAsync("http://192.168.0.19:1337/prime", content);
+				var response = await client.PostAsync(ConnectedSingleton.Instance.Address, content);
 
 				if (response.IsSuccessStatusCode)
 				{
 					JObject result = JsonConvert.DeserializeObject<JObject>(response.Content.ReadAsStringAsync().Result);
-					arg.ReturnValue = (int)result["highestPrime"];
+					arg.ReturnValue = (int)result["result"];
 				}
 
 				// TODO handle on response failure

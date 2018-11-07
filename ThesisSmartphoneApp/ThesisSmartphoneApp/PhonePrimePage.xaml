@@ -16,14 +16,22 @@
                Text="{Binding Timer, StringFormat='{0}ms'}" />
 
             <Entry HorizontalTextAlignment="Center"
-                   VerticalOptions="Center"
+                VerticalOptions="Center"
                Text="{Binding Number}" />
 
             <Button Text="Calculate Prime"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Command="{Binding CalculateLargestPrimeCommand}" />
-            
-        </StackLayout>
+
+			<Label Text="Connect to Server"
+				VerticalOptions="Center"
+                HorizontalOptions="Center" />
+			
+			<Switch VerticalOptions="Center"
+				HorizontalOptions="Center"
+				IsToggled="{Binding Connected}" />
+
+		</StackLayout>
     </ContentPage.Content>
 </ContentPage>
