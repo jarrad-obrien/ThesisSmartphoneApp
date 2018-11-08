@@ -32,6 +32,10 @@
 				HorizontalOptions="Center"
 				IsToggled="{Binding Connected}" />
 
+			<Entry HorizontalOptions="Center"
+				   VerticalOptions="Center"
+				   Text="{Binding Address}" />
+
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>

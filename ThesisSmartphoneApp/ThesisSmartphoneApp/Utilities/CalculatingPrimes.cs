@@ -111,6 +111,19 @@ namespace ThesisSmartphoneApp.Utilities
 				ConnectedSingleton.Instance.Connected = value;
 			}
 		}
+
+		public string Address
+		{
+			get
+			{
+				return ConnectedSingleton.Instance.Address;
+			}
+
+			set
+			{
+				ConnectedSingleton.Instance.Address = value;
+			}
+		}
 		
 		public CalculatingPrimes(string location)
         {
@@ -118,7 +131,7 @@ namespace ThesisSmartphoneApp.Utilities
 			CalculateLargestPrimeCommand = new Command(CalculateLargestPrimeTrigger);
         }
 
-		// Trigger to calculate the largest prime. Also records how long the method takes to
+		// Trigger to calculate the largest prime that records how long the method takes to
 		// complete
 		void CalculateLargestPrimeTrigger()
 		{
@@ -134,7 +147,7 @@ namespace ThesisSmartphoneApp.Utilities
 		public int CalculateLargestPrime(int calculateTo)
         {
 			
-			// If a server is connected, end this method straightaway and perform the
+			// If a server is connected, return this method straightaway and perform the
 			// computation on the server
 			if (ConnectedSingleton.Instance.Connected)
 			{
@@ -144,10 +157,14 @@ namespace ThesisSmartphoneApp.Utilities
 			int largestPrime = 1;
 			bool isPrime;
 
+			// Starting at 1, iterate up to and including the specified number
 			for (int i = 1; i <= calculateTo; i++)
 			{
 				isPrime = true;
 
+				// Determine if the current number is a prime. If it isn't break out
+				// of the loop and evaluate the next number. If it is, make it the 
+				// largest prime found
 				for (int j = 2; j <= i / 2; j++)
 				{
 					if (i % j == 0)
@@ -164,7 +181,6 @@ namespace ThesisSmartphoneApp.Utilities
 			}
 
 			return largestPrime;
-
         }
 
         // Handles updating the view when values are updated
